@@ -1,9 +1,15 @@
 import Head from 'next/head'
-import Image from 'next/image'
+
 
 
 export default function Home() {
   return (
-    <h2>hello world</h2>
+    <>
+      <Head>
+        <title>Home</title>
+      </Head>
+
+      <h2>hello world</h2>
+    </>
   )
 }
