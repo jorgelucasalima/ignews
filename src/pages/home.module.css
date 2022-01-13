@@ -38,3 +38,7 @@
   color: var(--cyan-500);
   font-weight: bold;
 }
+
+.hero button {
+  margin-top: 2rem;
+}

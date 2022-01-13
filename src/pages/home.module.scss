@@ -31,7 +31,6 @@
   }
 
   
-
   p {
     font-size: 1.5rem;
     line-height: 2.25rem;
@@ -41,6 +40,10 @@
       color: var(--cyan-500);
       font-weight: bold;
     }
+  }
+
+  button {
+    margin-top: 2rem;
   }
 
 }
