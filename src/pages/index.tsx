@@ -57,6 +57,7 @@ export const getStaticProps: GetStaticProps = async () => {
   return {  
     props: {
       product,
-    }
+    },
+    revalidate: 60 * 60 * 24, //a cada 24 horas um novo html é gerado
   }
 }
