@@ -23,7 +23,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-  ],
+, "src/pages/api/users/[...parametro].tsx"  ],
   "exclude": [
     "node_modules"
   ]
