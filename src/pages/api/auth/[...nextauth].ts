@@ -14,10 +14,6 @@ export default NextAuth({
     }),
   ],
 
-  jwt: {
-    secret: process.env.JWT_SECRET,
-  },
-
   callbacks: {
     async signIn({user, account, profile}): Promise<boolean> {
       
@@ -26,13 +22,29 @@ export default NextAuth({
       try {
 
         await fauna.query(
+          query.If(
+            query.Not(
+              query.Exists(
+                query.Match(
+                  query.Index('users_by_email'),
+                  query.Casefold(user.email)
+                )
+              )
+            )
+          ),
           query.Create(
             query.Collection('users'),
-            { data: {email}}
-          )
+            {data: {email}}
+          ),
+          query.Get(
+            query.Match(
+              query.Index('users_by_email'),
+              query.Casefold(user.email)
+            )
+          )  
         )
       
-        return true
+        
         
       } catch (error) {
         
