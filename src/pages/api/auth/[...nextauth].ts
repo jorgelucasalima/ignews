@@ -15,46 +15,44 @@ export default NextAuth({
   ],
 
   callbacks: {
-    async signIn({user, account, profile}): Promise<boolean> {
+    async signIn(user, account, profile) {
       
       const {email} = user
       
       try {
 
         await fauna.query(
-          query.If(
-            query.Not(
-              query.Exists(
+          await fauna.query(
+            query.If(
+              query.Not(
+                query.Exists(
+                  query.Match(
+                    query.Index('user_by_email'),
+                    query.Casefold(user.email)
+                  )
+                )
+              ),
+              query.Create(
+                query.Collection('users'),
+                {data: { email }}
+              ),
+              query.Get(
                 query.Match(
-                  query.Index('users_by_email'),
+                  query.Index('user_by_email'),
                   query.Casefold(user.email)
                 )
               )
+
             )
-          ),
-          query.Create(
-            query.Collection('users'),
-            {data: {email}}
-          ),
-          query.Get(
-            query.Match(
-              query.Index('users_by_email'),
-              query.Casefold(user.email)
-            )
-          )  
+          )
+            
         )
-      
-        
-        
+        return true
+
       } catch (error) {
-        
-        return false
-
-      }
-
-      
-    
+          console.log(error)
+          return false
+        }
     }
   }
-
 })
