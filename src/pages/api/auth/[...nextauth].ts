@@ -2,7 +2,8 @@ import NextAuth from "next-auth"
 import GithubProvider from "next-auth/providers/github"
 
 import { fauna } from "../../../services/fauna"
-import { query } from "faunadb"
+import { query as q } from "faunadb"
+
 
 
 export default NextAuth({
@@ -10,7 +11,11 @@ export default NextAuth({
     GithubProvider({
       clientId: process.env.GITHUB_CLIENT_ID,
       clientSecret: process.env.GITHUB_CLIENT_SECRET,
-      scope: 'read:user',
+      authorization: {
+        params: {
+          scope: 'read:user'
+        }
+      }
     }),
   ],
 
@@ -21,32 +26,31 @@ export default NextAuth({
       
       try {
 
-        await fauna.query(
           await fauna.query(
-            query.If(
-              query.Not(
-                query.Exists(
-                  query.Match(
-                    query.Index('user_by_email'),
-                    query.Casefold(user.email)
+            q.If(
+              q.Not(
+                q.Exists(
+                  q.Match(
+                    q.Index('user_by_email'),
+                    q.Casefold(user.email)
                   )
                 )
               ),
-              query.Create(
-                query.Collection('users'),
+              q.Create(
+                q.Collection('users'),
                 {data: { email }}
               ),
-              query.Get(
-                query.Match(
-                  query.Index('user_by_email'),
-                  query.Casefold(user.email)
+              q.Get(
+                q.Match(
+                  q.Index('user_by_email'),
+                  q.Casefold(user.email)
                 )
               )
 
             )
           )
             
-        )
+        
         return true
 
       } catch (error) {
