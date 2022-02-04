@@ -33,7 +33,7 @@ export function SubscribeButton( {priceId}: SubscribeButtonProps ) {
 
 
       } catch (error) {
-        alert(error)
+        alert(error.message)
       }
 
 
