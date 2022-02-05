@@ -11,7 +11,6 @@ interface SubscribeButtonProps {
 }
 
 
-
 export function SubscribeButton( {priceId}: SubscribeButtonProps ) {
   
 
@@ -31,12 +30,9 @@ export function SubscribeButton( {priceId}: SubscribeButtonProps ) {
 
         await stripe.redirectToCheckout({sessionId})
 
-
       } catch (error) {
         alert(error.message)
       }
-
-
   }
   
   return (
