@@ -2,7 +2,7 @@ import { fauna } from "../../../services/fauna";
 import { query as q } from "faunadb";
 import { stripe } from "../../../services/stripe";
 
-export async function saveSubscription( subscriptionId:string, customerId: string, createAction: boolean, ) {
+export async function saveSubscription( subscriptionId:string, customerId: string, createAction = false, ) {
   
   const userRef = await fauna.query(
     q.Select(
@@ -27,12 +27,29 @@ export async function saveSubscription( subscriptionId:string, customerId: strin
   }
 
 
-  await fauna.query(
-    q.Create(
-      q.Collection("subscriptions"),
-      { data: subscriptionData}
+  if (createAction) {
+    await fauna.query(
+      q.Create(
+        q.Collection("subscriptions"),
+        { data: subscriptionData}
+      )
     )
-  )
+  } else {
+    await fauna.query(
+      q.Replace(
+        q.Select(
+          "ref",
+          q.Get(
+            q.Match(
+              q.Index('subscription_by_id'),
+              subscriptionId
+            )
+          )
+        ),
+        {data: subscriptionData}
+      )
+    )
+  }
   
     
 }
