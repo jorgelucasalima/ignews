@@ -2,7 +2,7 @@ import { fauna } from "../../../services/fauna";
 import { query as q } from "faunadb";
 import { stripe } from "../../../services/stripe";
 
-export async function saveSubscription( subscriptionId:string, customerId: string ) {
+export async function saveSubscription( subscriptionId:string, customerId: string, createAction: boolean, ) {
   
   const userRef = await fauna.query(
     q.Select(
