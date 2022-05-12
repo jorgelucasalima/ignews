@@ -19,9 +19,9 @@ import {
 
 // -- @prismicio/client initialisation
 // Initialises the Prismic Client that's used for querying the API and passes it any query options.
-export const Client = (req = null) => (
-  Prismic.client(apiEndpoint, createClientOptions(req, accessToken, routeResolver))
-);
+//export const Client = (req = null) => (
+  //Prismic.client(apiEndpoint, createClientOptions(req, accessToken, routeResolver))
+//);
 
 // Options to be passed to the Client
 const createClientOptions = (req = null, prismicAccessToken = null, routes = null) => {
@@ -35,4 +35,3 @@ const createClientOptions = (req = null, prismicAccessToken = null, routes = nul
   }
 }
 
-export default Client

@@ -4,7 +4,7 @@ import { getPrismicClient } from '../../services/prismic';
 import styles from './styles.module.scss';
 import Prismic from '@prismicio/client'
 
-import {Client} from '../../../utils/prismicHelpers'
+//import {Client} from '../../../utils/prismicHelpers'
 import Link from 'next/link';
 
 
@@ -42,6 +42,6 @@ export default function Posts() {
 
 
 export async function getStaticProps() {
-  const response = await Client().query(Prismic.Predicates.at('document.type', 'post'));
-  console.log(response)
+  //const response = await Client().query(Prismic.Predicates.at('document.type', 'post'));
+  //console.log(response)
 }
